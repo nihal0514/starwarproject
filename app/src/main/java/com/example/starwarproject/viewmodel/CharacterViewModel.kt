@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.starwarproject.model.CharacterResponse
+import com.example.starwarproject.model.ResultsItem
 import com.example.starwarproject.repository.StarWarRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -12,7 +13,7 @@ class CharacterViewModel @Inject constructor(
     private val repository: StarWarRepository
 ): ViewModel(){
 
-    val charactersLiveData: LiveData<CharacterResponse>
+    val charactersLiveData: LiveData<List<ResultsItem>>
         get() = repository.characters
 
 

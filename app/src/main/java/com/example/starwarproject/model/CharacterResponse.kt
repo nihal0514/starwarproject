@@ -14,7 +14,7 @@ data class CharacterResponse(
 	val count: Int? = null,
 
 	@field:SerializedName("results")
-	val results: List<ResultsItem?>? = null
+	val results: List<ResultsItem>? = null
 )
 
 data class ResultsItem(
