@@ -2,6 +2,7 @@ package com.example.starwarproject.di
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.example.starwarproject.fragment.CharacterMovieFragment
 import com.example.starwarproject.fragment.HomeFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -13,6 +14,8 @@ import javax.inject.Singleton
 interface ApplicationComponent {
 
     fun inject(homeFragment: HomeFragment)
+
+    fun injectDetail(characterMovieFragment: CharacterMovieFragment)
 
     fun getMap(): Map<Class<*>, ViewModel>
 

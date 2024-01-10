@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.example.starwarproject.model.ResultsItem" />
+    </data>
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_gradient"
+    android:layout_margin="16dp"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Attack of the Clones"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/directorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Director: George Lucas"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_below="@+id/titleTextView"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/producerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Producer: Rick McCallum"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:layout_below="@+id/directorTextView"
+        android:layout_marginTop="4dp"/>
+
+</RelativeLayout>
+
+
+</layout>

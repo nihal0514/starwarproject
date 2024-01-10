@@ -3,11 +3,16 @@ package com.example.starwarproject.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,15 +21,18 @@ import com.example.starwarproject.adapters.CharacterListAdapter
 import com.example.starwarproject.adapters.OnClickListener
 import com.example.starwarproject.di.ApplicationComponent
 import com.example.starwarproject.di.DaggerApplicationComponent
+import com.example.starwarproject.model.ResultsItem
 import com.example.starwarproject.viewmodel.CharacterViewModel
 import com.example.starwarproject.viewmodel.MainViewModelFactory
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 import javax.inject.Inject
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(),OnClickListener {
 
     private lateinit var characterViewModel: CharacterViewModel
-    private lateinit var characterListAdapter: CharacterListAdapter
+    private var characterListAdapter = CharacterListAdapter(this)
     private lateinit var characterListRecyv: RecyclerView
 
     private lateinit var applicationComponent: ApplicationComponent
@@ -42,41 +50,42 @@ class HomeFragment : Fragment() {
         applicationComponent = DaggerApplicationComponent.factory().create(requireContext())
 
         applicationComponent.inject(this)
-        characterViewModel = ViewModelProvider(this, mainViewModelFactory)[CharacterViewModel::class.java]
-        characterViewModel.refresh()
-
-        characterListAdapter = CharacterListAdapter(arrayListOf(), OnClickListener {
-
-        })
+        characterViewModel =
+            ViewModelProvider(this, mainViewModelFactory)[CharacterViewModel::class.java]
 
         characterListRecyv.apply {
-            layoutManager = GridLayoutManager(activity,2)
+            layoutManager = GridLayoutManager(activity, 2)
             adapter = characterListAdapter
         }
-        observeViewModel()
-
+        loadAllCharacters()
         return view
-
     }
-    private fun observeViewModel() {
 
-        characterViewModel.charactersLiveData.observe(viewLifecycleOwner) { characters ->
-            characters?.let {
-                characterListRecyv.visibility = View.VISIBLE
-                //movieList.addAll(it)
-                characterListAdapter.updateMovies(it)
+    private fun loadAllCharacters() {
+        lifecycleScope.launch {
+            characterViewModel.characterList.collectLatest { pagingData ->
+                print(pagingData.toString())
+                characterListAdapter.submitData(pagingData)
             }
         }
+    }
 
-        /*characterViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            isLoading?.let {
-                loading_view.visibility = if (it) View.VISIBLE else View.GONE
-                if (it) {
-                    list_error.visibility = View.GONE
-                    moviesListrecyv.visibility = View.GONE
-                }
-            }
-        }*/
+    override fun onClick(country: ResultsItem) {
+        openCharacterMovieFragment(country)
+    }
+
+    private fun openCharacterMovieFragment(country: ResultsItem) {
+        val detailsFragment = CharacterMovieFragment()
+
+        val bundle = Bundle()
+        bundle.putString("characterName", country.films.toString())
+        detailsFragment.arguments = bundle
+
+        // Open the new fragment
+        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container, detailsFragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 
 }

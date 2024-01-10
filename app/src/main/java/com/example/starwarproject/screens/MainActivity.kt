@@ -3,6 +3,8 @@ package com.example.starwarproject.screens
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.starwarproject.R
 import com.example.starwarproject.fragment.HomeFragment
 
