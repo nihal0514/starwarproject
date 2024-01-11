@@ -1,5 +1,7 @@
 package com.example.starwarproject.model
-
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class CharacterResponse(
@@ -16,6 +18,7 @@ data class CharacterResponse(
 	@field:SerializedName("results")
 	val results: List<ResultsItem>? = null
 )
+
 
 data class ResultsItem(
 
@@ -66,4 +69,18 @@ data class ResultsItem(
 
 	@field:SerializedName("height")
 	val height: String? = null
+)
+
+
+
+@Entity(tableName = "results_items")
+data class ResultsItemEntity(
+	@PrimaryKey(autoGenerate = true)
+	val id: Long=0,
+	// Add other fields based on your ResultsItem class
+	val name: String,
+
+	@ColumnInfo(name = "page")
+	val page: Int // Assuming 'page' is an integer field
+	// ...
 )
