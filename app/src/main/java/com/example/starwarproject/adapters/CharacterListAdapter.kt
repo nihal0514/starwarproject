@@ -24,10 +24,7 @@ class CharacterListAdapter(
     }
 
     override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
-     /*   holder.bind(characterItems[position])
-        holder.itemView.setOnClickListener {
-            onClickListener.onClick(characterItems[position])
-        }*/
+
         val character = getItem(position)
         character?.let {
             holder.bind(it)

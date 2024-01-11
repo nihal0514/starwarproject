@@ -29,7 +29,6 @@ class CharacterMovieFragment : Fragment() {
     @Inject
     lateinit var mainViewModelFactory: MainViewModelFactory
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,21 +49,18 @@ class CharacterMovieFragment : Fragment() {
             adapter = movieAdapter
         }
 
-        val filmUrls = listOf(
-            "https://swapi.dev/api/films/1/",
-            "https://swapi.dev/api/films/2/",
-            "https://swapi.dev/api/films/3/",
-            "https://swapi.dev/api/films/6/"
-        )
+        val bundle: Bundle? = arguments
+        val message = bundle?.getString("characterFilms")
+        print(message)
+        val urlList: List<String> = convertStringToList(message.toString())
 
-        val filmUrlsArray: Array<String> = filmUrls.toTypedArray()
-
-        characterViewModel.fetchMovieDetails(filmUrlsArray)
+        characterViewModel.fetchMovieDetails(urlList)
 
         observeViewModel()
 
         return view
     }
+
     private fun observeViewModel() {
 
         characterViewModel.movieDetailsLiveData.observe(viewLifecycleOwner) { movies ->
@@ -73,6 +69,10 @@ class CharacterMovieFragment : Fragment() {
             }
         }
 
+    }
+    fun convertStringToList(jsonString: String): List<String> {
+        val cleanedString = jsonString.replace("[", "").replace("]", "")
+        return cleanedString.split(", ").map { it.trim() }
     }
 
 

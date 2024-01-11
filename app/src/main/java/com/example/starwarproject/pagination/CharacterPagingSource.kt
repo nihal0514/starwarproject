@@ -2,6 +2,7 @@ package com.example.starwarproject.pagination
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.starwarproject.model.FilterState
 import com.example.starwarproject.model.ResultsItem
 import com.example.starwarproject.repository.StarWarRepository
 import com.example.starwarproject.retrofit.StarWarApi
@@ -18,7 +19,8 @@ class CharacterPagingSource(private val repository: StarWarRepository) :
                 val characters = response.body()?.results ?: emptyList()
 
                 LoadResult.Page(
-                    data = characters,
+                    data =
+                    characters,
                     prevKey = if (nextPageNumber == 1) null else nextPageNumber - 1,
                     nextKey = if (characters.isEmpty()) null else nextPageNumber + 1
                 )

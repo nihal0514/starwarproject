@@ -8,6 +8,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.starwarproject.model.CharacterMoviesResponse
+import com.example.starwarproject.model.FilterState
 import com.example.starwarproject.model.ResultsItem
 import com.example.starwarproject.pagination.CharacterPagingSource
 import com.example.starwarproject.repository.StarWarRepository
@@ -20,18 +21,8 @@ class CharacterViewModel @Inject constructor(
     private val repository: StarWarRepository,
 ): ViewModel(){
 
-    val charactersLiveData: LiveData<List<ResultsItem>>
-        get() = repository.characters
-
-
-    fun refresh() {
-        fetchCountries()
-    }
-    private fun fetchCountries() {
-        viewModelScope.launch {
-            repository.getAllCharacters()
-        }
-    }
+    private var currentPagingSource: CharacterPagingSource =
+        CharacterPagingSource(repository)
 
     val characterList: Flow<PagingData<ResultsItem>> = Pager(PagingConfig(pageSize = 9)) {
         CharacterPagingSource(repository)
@@ -41,7 +32,7 @@ class CharacterViewModel @Inject constructor(
     private val _movieDetailsLiveData = MutableLiveData<List<CharacterMoviesResponse>>()
     val movieDetailsLiveData: LiveData<List<CharacterMoviesResponse>>  get() = _movieDetailsLiveData
 
-    fun fetchMovieDetails(movieUrls: Array<String>) {
+    fun fetchMovieDetails(movieUrls: List<String>) {
         viewModelScope.launch {
             try {
                 val movieDetailsList = mutableListOf<CharacterMoviesResponse>()
@@ -51,23 +42,13 @@ class CharacterViewModel @Inject constructor(
                     if (response.isSuccessful) {
                         movieDetailsList.add(response.body()!!)
                     } else {
-                        // Handle the error for a specific movie URL
-                        // You might want to log or handle errors based on your use case
                     }
                 }
 
                 _movieDetailsLiveData.postValue(movieDetailsList)
             } catch (e: Exception) {
-                // Handle network or other exceptions
             }
         }
     }
 
-}
-
-
-class TestForMultiBinding @Inject constructor() {
-    fun testSomething() {
-
-    }
 }

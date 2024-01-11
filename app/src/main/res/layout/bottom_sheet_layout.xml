@@ -1,0 +1,39 @@
+<!-- bottom_sheet_filter.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <CheckBox
+        android:id="@+id/checkBoxName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name" />
+
+    <CheckBox
+        android:id="@+id/checkBoxGender"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gender" />
+
+    <CheckBox
+        android:id="@+id/checkBoxCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Created" />
+
+    <CheckBox
+        android:id="@+id/checkBoxUpdated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Updated" />
+
+    <Button
+        android:id="@+id/buttonApply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apply Filters" />
+
+</LinearLayout>

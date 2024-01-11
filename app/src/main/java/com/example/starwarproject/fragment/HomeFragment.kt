@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -21,9 +22,12 @@ import com.example.starwarproject.adapters.CharacterListAdapter
 import com.example.starwarproject.adapters.OnClickListener
 import com.example.starwarproject.di.ApplicationComponent
 import com.example.starwarproject.di.DaggerApplicationComponent
+import com.example.starwarproject.model.FilterState
 import com.example.starwarproject.model.ResultsItem
+import com.example.starwarproject.pagination.CharacterPagingSource
 import com.example.starwarproject.viewmodel.CharacterViewModel
 import com.example.starwarproject.viewmodel.MainViewModelFactory
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -37,6 +41,8 @@ class HomeFragment : Fragment(),OnClickListener {
 
     private lateinit var applicationComponent: ApplicationComponent
 
+    private lateinit var sortBtn: FloatingActionButton
+
     @Inject
     lateinit var mainViewModelFactory: MainViewModelFactory
 
@@ -46,6 +52,7 @@ class HomeFragment : Fragment(),OnClickListener {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
         characterListRecyv = view.findViewById<View>(R.id.moviesList) as RecyclerView
+        sortBtn = view.findViewById<View>(R.id.filter_list) as FloatingActionButton
 
         applicationComponent = DaggerApplicationComponent.factory().create(requireContext())
 
@@ -57,15 +64,28 @@ class HomeFragment : Fragment(),OnClickListener {
             layoutManager = GridLayoutManager(activity, 2)
             adapter = characterListAdapter
         }
+
+
+        sortBtn.setOnClickListener {
+            val bottomSheetFragment = BottomSheetFragment(object :
+                BottomSheetFragment.FilterListener {
+                override fun onFilterApplied(filterState: FilterState) {
+
+                }
+
+            })
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
+
+        }
         loadAllCharacters()
         return view
     }
 
     private fun loadAllCharacters() {
         lifecycleScope.launch {
-            characterViewModel.characterList.collectLatest { pagingData ->
-                print(pagingData.toString())
-                characterListAdapter.submitData(pagingData)
+            characterViewModel.characterList.collectLatest {
+
+                characterListAdapter.submitData(it)
             }
         }
     }
@@ -78,14 +98,12 @@ class HomeFragment : Fragment(),OnClickListener {
         val detailsFragment = CharacterMovieFragment()
 
         val bundle = Bundle()
-        bundle.putString("characterName", country.films.toString())
+        bundle.putString("characterFilms", country.films.toString())
         detailsFragment.arguments = bundle
 
-        // Open the new fragment
         val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container, detailsFragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
-
 }
