@@ -10,12 +10,11 @@ I have developed an Android application that leverages the Star Wars API to fetc
 
 Below is a brief overview of the key components and features:
 
-Project Overview:
-Purpose:
+**Project Overview**:
+**Purpose**:
 The primary purpose of the project is to provide an interactive and informative experience for users interested in Star Wars characters and movies. The application fetches data from the Star Wars API, presenting it in a user-friendly manner.
 
-Core Functionalities:
-UI Enhancement:
+**Core Functionalities**: UI Enhancement:
 
 The user interface is designed to be visually appealing and intuitive, employing RecyclerViews and adapters for efficient data presentation.
 Dependency Injection (Dagger ):
@@ -35,43 +34,43 @@ ViewModel Architecture:
 The ViewModel architecture is adopted to manage UI-related data and handle interactions between the UI components and the underlying data sources.
 
 Project Components:
-Model Classes:
+**Model Classes**:
 
 Character.kt: Represents a Star Wars character with additional properties.
 Movie.kt: Represents a Star Wars movie with relevant information.
-Adapters:
+**Adapters**:
 
 CharacterListAdapter.kt: RecyclerView adapter for displaying characters.
 MovieAdapter.kt: RecyclerView adapter for displaying movies.
-Room Database:
+**Room Database**:
 
 CharacterDao.kt: Data Access Object (DAO) for Room, handling character-related database operations.
 CharacterDB.kt: Room database definition for storing character data.
-Dependency Injection (DI):
+**Dependency Injection (DI)**:
 
-ApplicationComponent.kt: Dagger Hilt component for application-level dependencies.
-DatabaseModule.kt: Dagger Hilt module providing dependencies related to the Room database.
-NetworkModule.kt: Dagger Hilt module providing dependencies related to Retrofit and the Star Wars API.
-ViewModelModule.kt: Dagger Hilt module providing dependencies for ViewModels.
-UI Fragments:
+ApplicationComponent.kt: Dagger  component for application-level dependencies.
+DatabaseModule.kt: Dagger  module providing dependencies related to the Room database.
+NetworkModule.kt: Dagger  module providing dependencies related to Retrofit and the Star Wars API.
+ViewModelModule.kt: Dagger  module providing dependencies for ViewModels.
+**UI Fragments**:
 
 CharacterMovieFragment.kt: Fragment for displaying characters and associated movies.
 HomeFragment.kt: Home fragment for the main screen.
-Pagination:
+**Pagination**:
 
 CharacterPagingSource.kt: PagingSource implementation for character data pagination.
-Repository:
+**Repository**:
 
 StarWarRepository.kt: Repository class handling data sources and providing a clean API to the ViewModel.
 Retrofit:
 
 StarWarApi.kt: Retrofit interface for making API calls to the Star Wars API.
-ViewModel:
+**ViewModel**:
 
 CharacterViewModel.kt: ViewModel responsible for managing UI-related data and interacting with the repository.
-Application Class:
+**Application Class**:
 
-StarWarApplication.kt: Custom Application class initializing Dagger Hilt and other application-level configurations.
+StarWarApplication.kt: Custom Application class initializing Dagger  and other application-level configurations.
 Conclusion:
 The project showcases a well-organized Android application that combines modern Android development practices, effective use of libraries, and a clean architecture to deliver a seamless and engaging experience for Star Wars enthusiasts.
 
